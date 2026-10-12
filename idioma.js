@@ -118,6 +118,14 @@
   if (inicial === 'auto') inicial = /^es/i.test(navigator.language || '') ? 'es' : 'en';
   var idioma = guardado || inicial;
   window.SITIO_IDIOMA = idioma;
+  // Contenido de cada propiedad: usa la versión en inglés si existe
+  window.propIdioma = function (p) {
+    if (!p || idioma !== 'en') return p;
+    if (Array.isArray(p)) { p.forEach(window.propIdioma); return p; }
+    if (p.titulo_en) p.titulo = p.titulo_en;
+    if (p.descripcion_en) p.descripcion = p.descripcion_en;
+    return p;
+  };
 
   // Textos del config en inglés (si están definidos)
   if (idioma === 'en' && S.en) Object.keys(S.en).forEach(function (k) { S[k] = S.en[k]; });
@@ -183,7 +191,7 @@
     BLOQUES.forEach(function (b) { document.querySelectorAll(b[0]).forEach(function (el) { if (el.dataset.en !== '1') { el.innerHTML = b[1]; el.dataset.en = '1'; } }); });
   }
   function titulo() {
-    var tt = document.title.replace(/Inmobiliaria en Argentina, Paraguay y Uruguay/, 'Real Estate in Argentina, Paraguay & Uruguay').replace(/Inmobiliaria en Córdoba/, 'Real Estate in Córdoba').replace(/Propiedad/, 'Property')
+    var tt = document.title.replace(/Inmobiliaria en Argentina, Paraguay, Uruguay y EE.UU./, 'Real Estate in Argentina, Paraguay, Uruguay & USA').replace(/Inmobiliaria en Córdoba/, 'Real Estate in Córdoba').replace(/Propiedad/, 'Property')
       .replace(/Ficha de propiedad/, 'Property fact sheet');
     if (tt !== document.title) document.title = tt;
   }

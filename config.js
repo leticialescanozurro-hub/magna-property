@@ -13,10 +13,10 @@ window.SITIO = {
   logo: '/files/magna-logo-horizontal.png', // logo del menú ('' = círculo con la inicial)
   favicon: '/files/favicon.png',
   ciudad: 'Córdoba',
-  heroEtiqueta: 'Inmobiliaria en Argentina, Paraguay y Uruguay',   // texto chico arriba del título principal
+  heroEtiqueta: 'Inmobiliaria en Argentina, Paraguay, Uruguay y EE.UU.',   // texto chico arriba del título principal
   pieMarca: 'Magna Strategic Group',            // título del pie de página
   pieFrase: '',                               // frase en dorado debajo del título del pie ('' = sin frase)
-  eslogan: 'Servicios inmobiliarios en Argentina, Uruguay y Paraguay.',
+  eslogan: 'Servicios inmobiliarios en Argentina, Uruguay, Paraguay y EE.UU.',
 
   // ---- Corredor/a responsable ----
   corredor: 'Martha Alicia Caminos',
@@ -69,8 +69,8 @@ window.SITIO = {
   idiomas: true,               // botón ES | EN (false = solo español)
   idiomaInicial: 'auto',       // 'auto' (según el navegador del visitante), 'es' o 'en'
   en: {                        // textos propios de la inmobiliaria en inglés
-    heroEtiqueta: 'Real estate in Argentina, Paraguay & Uruguay',
-    eslogan: 'Real estate services in Argentina, Uruguay and Paraguay.',
+    heroEtiqueta: 'Real estate in Argentina, Paraguay, Uruguay & USA',
+    eslogan: 'Real estate services in Argentina, Uruguay, Paraguay and the USA.',
     horarios: ['Monday to Friday: 9 am – 6 pm', 'Saturday: 9 am – 1 pm'],
     corredorTitulo: 'Licensed Real Estate Broker',
   },
@@ -227,7 +227,7 @@ window.SITIO = {
   if (S.heroDerecha) dis += '@media (min-width:769px){'
     + 'html .hero{justify-content:flex-end}'
     + 'html .hero-content{text-align:right;margin-left:auto}'
-    + 'html .hero-eyebrow{justify-content:flex-end}html .hero-eyebrow::before{display:none}html .hero-eyebrow::after{content:"";display:block;width:40px;height:1px;background:var(--gold)}'
+    + 'html .hero-eyebrow{justify-content:flex-end}html .hero-eyebrow::before{display:none}html .hero-eyebrow::after{content:"";display:block;width:40px;height:1px;background:var(--gold);flex-shrink:0}'
     + 'html .hero p{margin-left:auto}'
     + 'html .hero-actions{flex-direction:row-reverse;justify-content:flex-start}'
     + 'html .hero-pattern{transform:scaleX(-1)}'

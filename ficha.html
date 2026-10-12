@@ -272,6 +272,7 @@ async function cargar() {
     return;
   }
   prop = data;
+  if (window.propIdioma) propIdioma(prop);
   try { fotos = data.fotos ? JSON.parse(data.fotos) : []; } catch { fotos = []; }
   document.title = `${data.titulo || 'Propiedad'} – ${SITIO.nombreCompleto}`;
   render(data);

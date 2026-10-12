@@ -251,6 +251,7 @@ async function loadPropiedad() {
   if (!id) { window.location = '/'; return; }
 
   const { data: p, error } = await sb.from('propiedades').select('*').eq('id', id).single();
+  if (window.propIdioma) propIdioma(p);
   if (error || !p) { window.location = '/'; return; }
 
   const reservada = p.estado === 'reservada';

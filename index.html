@@ -5,16 +5,16 @@
 <script src="/config.js"></script>
 <script src="/idioma.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magna Strategic Group – Inmobiliaria en Argentina, Paraguay y Uruguay</title>
-  <meta name="description" content="Magna Strategic Group, inmobiliaria en Argentina, Paraguay y Uruguay. Compra, venta y alquiler de propiedades.">
-  <meta property="og:title" content="Magna Strategic Group – Inmobiliaria en Argentina, Paraguay y Uruguay">
-  <meta property="og:description" content="Compra, venta y alquiler de propiedades en Argentina, Paraguay y Uruguay. Contactanos y encontrá tu próxima propiedad.">
+<title>Magna Strategic Group – Inmobiliaria en Argentina, Paraguay, Uruguay y EE.UU.</title>
+  <meta name="description" content="Magna Strategic Group, inmobiliaria en Argentina, Paraguay, Uruguay y EE.UU. Compra, venta y alquiler de propiedades.">
+  <meta property="og:title" content="Magna Strategic Group – Inmobiliaria en Argentina, Paraguay, Uruguay y EE.UU.">
+  <meta property="og:description" content="Compra, venta y alquiler de propiedades en Argentina, Paraguay, Uruguay y EE.UU.. Contactanos y encontrá tu próxima propiedad.">
   <meta property="og:url" content="https://www.magnaproperty.com.ar">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.magnaproperty.com.ar/files/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Magna Strategic Group – Inmobiliaria en Argentina, Paraguay y Uruguay">
-  <meta name="twitter:description" content="Compra, venta y alquiler de propiedades en Argentina, Paraguay y Uruguay.">
+  <meta name="twitter:title" content="Magna Strategic Group – Inmobiliaria en Argentina, Paraguay, Uruguay y EE.UU.">
+  <meta name="twitter:description" content="Compra, venta y alquiler de propiedades en Argentina, Paraguay, Uruguay y EE.UU..">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -655,10 +655,10 @@
   .paises button:hover,.paises button.on{color:var(--navy)}
   .paises button.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:linear-gradient(90deg,#B1823B,#F3D08A,#B1823B)}
   .proximamente{grid-column:1/-1;text-align:center;padding:56px 24px;border:1px solid rgba(var(--gold-rgb),.35);border-radius:4px;max-width:640px;margin:0 auto}
-  .proximamente .px-eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .proximamente .px-eyebrow{font-size:12.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#8E6A2C;margin-bottom:10px}
   .proximamente h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:34px;color:var(--navy);margin-bottom:14px}
   .proximamente p{color:var(--text-muted);line-height:1.7;margin-bottom:26px}
-  @media (max-width:768px){.paises{justify-content:flex-start;margin:0 -5% 18px;padding:0 5%}.paises button{padding:10px 12px 12px;font-size:11px}}
+  @media (max-width:768px){.paises{justify-content:space-between;gap:0;margin:0 0 18px}.paises button{padding:10px 4px 12px;font-size:10.5px;letter-spacing:.08em}.paises button.on::after{left:4px;right:4px}}
 </style>
 </head>
 <body>
@@ -979,6 +979,7 @@ const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 function renderProps(props) {
+  if (window.propIdioma) propIdioma(props);
   const grid = document.getElementById('propiedadesGrid');
   if (!props || props.length === 0) {
     if (paisActual && !document.getElementById('s-tipo').value && !document.getElementById('s-operacion').value && !document.getElementById('s-texto').value.trim()) {
@@ -1030,11 +1031,12 @@ let paisActual = '';
   const cont = document.getElementById('paises');
   if (!lista.length || !cont) return;
   cont.hidden = false;
-  cont.innerHTML = ['Todos'].concat(lista).map((p, i) =>
-    '<button type="button" data-pais="' + (i ? p : '') + '"' + (i ? '' : ' class="on"') + '>' + p + '</button>').join('');
+  cont.innerHTML = lista.map(p => '<button type="button" data-pais="' + p + '">' + p + '</button>').join('');
   cont.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
-    cont.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
-    paisActual = b.dataset.pais;
+    const yaElegido = b.classList.contains('on');
+    cont.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+    if (!yaElegido) b.classList.add('on');
+    paisActual = yaElegido ? '' : b.dataset.pais;
     buscarPropiedades();
   }));
 })();

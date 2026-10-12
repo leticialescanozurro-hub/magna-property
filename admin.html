@@ -430,6 +430,10 @@
       <div class="form-section-title">Contanos de tu propiedad</div>
       <div class="form-group"><label>Título del aviso</label><input type="text" id="f-titulo" placeholder="Ej: Casa con patio y quincho · Barrio Jardín"></div>
       <div class="form-group"><label>Descripción</label><button class="ai-btn" type="button" id="aiBtn" onclick="generarDescripcionIA()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> ✨ Generar descripción con IA</button><textarea id="f-descripcion" placeholder="Completá los datos de arriba y hacé clic en Generar descripción con IA..." style="min-height:120px"></textarea></div>
+      <div class="form-section-title">Versión en inglés <small style="font-weight:300;text-transform:none;letter-spacing:0">(se muestra cuando el visitante elige EN; si queda vacío, se muestra en español)</small></div>
+      <button class="ai-btn" type="button" id="aiTradBtn" onclick="traducirIA()">✨ Traducir título y descripción al inglés con IA</button>
+      <div class="form-group"><label>Título en inglés</label><input type="text" id="f-titulo-en" placeholder="Ej: House with patio and BBQ area"></div>
+      <div class="form-group"><label>Descripción en inglés</label><textarea id="f-descripcion-en" style="min-height:120px"></textarea></div>
       <div class="form-group"><label>Código interno</label><input type="text" id="f-codigo-interno" placeholder="Ej: 93390"></div>
 
       <!-- 7. PRECIO (Zonaprop etapa 3) -->
@@ -801,7 +805,7 @@ function editarPropiedad(p) {
   set('f-luminosidad', p.luminosidad || ''); set('f-orientacion', p.orientacion || '');
   set('f-plantas', p.cantidad_plantas); set('f-cochera', p.cochera || 'no');
   set('f-frente', p.frente_terreno); set('f-largo', p.largo_terreno);
-  set('f-titulo', p.titulo); set('f-descripcion', p.descripcion); set('f-codigo-interno', p.codigo_interno);
+  set('f-titulo', p.titulo); set('f-descripcion', p.descripcion); set('f-titulo-en', p.titulo_en); set('f-descripcion-en', p.descripcion_en); set('f-codigo-interno', p.codigo_interno);
   set('f-precio', p.precio); set('f-moneda', p.moneda || 'USD'); set('f-expensas', p.expensas);
   set('f-escritura', p.escritura || '');
   // Una reservada sigue siendo visible: el select queda en "Activa" y el tilde en Reservada
@@ -862,6 +866,8 @@ async function guardarPropiedad() {
     largo_terreno: num('f-largo'),
     titulo: val('f-titulo'),
     descripcion: val('f-descripcion'),
+    titulo_en: txt('f-titulo-en'),
+    descripcion_en: txt('f-descripcion-en'),
     codigo_interno: txt('f-codigo-interno'),
     precio: num('f-precio'),
     moneda: val('f-moneda'),
@@ -968,6 +974,25 @@ async function handleFiles(files) {
 }
 
 // GENERADOR DE DESCRIPCION IA
+async function traducirIA() {
+  const titulo = document.getElementById('f-titulo').value.trim();
+  const descripcion = document.getElementById('f-descripcion').value.trim();
+  if (!titulo && !descripcion) { showToast('Primero completá el título y la descripción en español', 'error'); return; }
+  const btn = document.getElementById('aiTradBtn'); const txt0 = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Traduciendo...';
+  try {
+    const r = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ traducir: { titulo, descripcion } }) });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || ('Error ' + r.status));
+    if (data.titulo) document.getElementById('f-titulo-en').value = data.titulo;
+    if (data.descripcion) document.getElementById('f-descripcion-en').value = data.descripcion;
+    showToast('¡Traducción lista! Revisala antes de guardar ✓', 'success');
+  } catch (err) {
+    showToast('No se pudo traducir: ' + err.message, 'error');
+  }
+  btn.disabled = false; btn.textContent = txt0;
+}
+
 async function generarDescripcionIA() {
   const v = id => document.getElementById(id).value;
   const tipo = v('f-tipo');
