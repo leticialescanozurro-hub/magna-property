@@ -13,7 +13,9 @@ window.SITIO = {
   logo: '/files/magna-logo-horizontal.png', // logo del menú ('' = círculo con la inicial)
   favicon: '/files/favicon.png',
   ciudad: 'Córdoba',
-  eslogan: 'Servicios inmobiliarios en Argentina y Uruguay.',
+  pieMarca: 'Magna Strategic Group',            // título del pie de página
+  pieFrase: 'De Córdoba al mundo.',             // frase en dorado debajo del título del pie ('' = sin frase)
+  eslogan: 'Servicios inmobiliarios en Argentina, Uruguay y Paraguay.',
 
   // ---- Corredor/a responsable ----
   corredor: 'Martha Alicia Caminos',
@@ -71,6 +73,7 @@ window.SITIO = {
 (function () {
   const S = window.SITIO;
   S.web = 'https://' + S.dominio;
+  if (!S.pieMarca) S.pieMarca = S.nombreCompleto;
   S.wa = function (texto) {
     return 'https://wa.me/' + S.whatsapp + (texto ? '?text=' + encodeURIComponent(texto) : '');
   };
@@ -97,6 +100,12 @@ window.SITIO = {
     });
     document.querySelectorAll('[data-wa]').forEach(function (el) {
       el.href = S.wa(el.dataset.wa.replace('{nombre}', S.nombreCompleto));
+    });
+    if (S.pieFrase) document.querySelectorAll('.footer-brand').forEach(function (el) {
+      if (el.querySelector('.pie-frase')) return;
+      var sp = document.createElement('span'); sp.className = 'pie-frase'; sp.textContent = S.pieFrase;
+      sp.style.cssText = 'display:block;margin-top:6px;font-style:italic;font-weight:300;font-size:0.72em;color:var(--gold-light);letter-spacing:0.02em';
+      el.appendChild(sp);
     });
     document.querySelectorAll('[data-cfg-href="web"]').forEach(function (el) { el.href = S.web; });
     if (S.logo) document.querySelectorAll('[data-logo]').forEach(function (el) {
