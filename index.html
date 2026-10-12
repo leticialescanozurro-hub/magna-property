@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <script src="/config.js"></script>
+<script src="/idioma.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magna Strategic Group – Inmobiliaria en Córdoba</title>
-  <meta name="description" content="Magna Strategic Group, inmobiliaria en Córdoba. Compra, venta y alquiler de propiedades.">
-  <meta property="og:title" content="Magna Strategic Group – Inmobiliaria en Córdoba">
-  <meta property="og:description" content="Compra, venta y alquiler de propiedades en Córdoba. Contactanos y encontrá tu próxima propiedad.">
+<title>Magna Strategic Group – Inmobiliaria en Argentina, Paraguay y Uruguay</title>
+  <meta name="description" content="Magna Strategic Group, inmobiliaria en Argentina, Paraguay y Uruguay. Compra, venta y alquiler de propiedades.">
+  <meta property="og:title" content="Magna Strategic Group – Inmobiliaria en Argentina, Paraguay y Uruguay">
+  <meta property="og:description" content="Compra, venta y alquiler de propiedades en Argentina, Paraguay y Uruguay. Contactanos y encontrá tu próxima propiedad.">
   <meta property="og:url" content="https://www.magnaproperty.com.ar">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.magnaproperty.com.ar/files/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Magna Strategic Group – Inmobiliaria en Córdoba">
-  <meta name="twitter:description" content="Compra, venta y alquiler de propiedades en Córdoba.">
+  <meta name="twitter:title" content="Magna Strategic Group – Inmobiliaria en Argentina, Paraguay y Uruguay">
+  <meta name="twitter:description" content="Compra, venta y alquiler de propiedades en Argentina, Paraguay y Uruguay.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -646,6 +647,18 @@
     .cta-band { flex-direction: column; }
     .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
   }
+  /* PESTAÑAS DE PAÍSES */
+  .paises{display:flex;justify-content:center;gap:6px;max-width:900px;margin:0 auto 22px;border-bottom:1px solid rgba(var(--navy-rgb),.12);overflow-x:auto;scrollbar-width:none}
+  .paises[hidden]{display:none}
+  .paises::-webkit-scrollbar{display:none}
+  .paises button{background:none;border:0;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--navy-rgb),.5);padding:12px 18px 14px;position:relative;white-space:nowrap;transition:color .2s}
+  .paises button:hover,.paises button.on{color:var(--navy)}
+  .paises button.on::after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:linear-gradient(90deg,#B1823B,#F3D08A,#B1823B)}
+  .proximamente{grid-column:1/-1;text-align:center;padding:56px 24px;border:1px solid rgba(var(--gold-rgb),.35);border-radius:4px;max-width:640px;margin:0 auto}
+  .proximamente .px-eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .proximamente h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:34px;color:var(--navy);margin-bottom:14px}
+  .proximamente p{color:var(--text-muted);line-height:1.7;margin-bottom:26px}
+  @media (max-width:768px){.paises{justify-content:flex-start;margin:0 -5% 18px;padding:0 5%}.paises button{padding:10px 12px 12px;font-size:11px}}
 </style>
 </head>
 <body>
@@ -675,7 +688,7 @@
   <div class="hero-pattern"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Inmobiliaria en <span data-cfg="ciudad"></span></p>
+    <p class="hero-eyebrow" data-cfg="heroEtiqueta"></p>
     <h1>Tu próxima <em>propiedad</em><br>está aquí</h1>
     <p>Acompañamos cada etapa de tu inversión con experiencia, transparencia y el conocimiento del mercado inmobiliario.</p>
     <div class="hero-actions">
@@ -692,6 +705,7 @@
 <!-- SEARCH -->
 <section class="search-section">
   <h2>¿Qué estás buscando?</h2>
+  <div class="paises" id="paises" hidden></div>
   <div class="search-bar">
     <select id="s-tipo">
       <option value="">Tipo</option>
@@ -967,6 +981,10 @@ const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 function renderProps(props) {
   const grid = document.getElementById('propiedadesGrid');
   if (!props || props.length === 0) {
+    if (paisActual && !document.getElementById('s-tipo').value && !document.getElementById('s-operacion').value && !document.getElementById('s-texto').value.trim()) {
+      grid.innerHTML = '<div class="proximamente"><p class="px-eyebrow">' + paisActual + '</p><h3>Próximamente</h3><p>Estamos cargando nuestras propiedades en ' + paisActual + '. Escribinos y te contamos las oportunidades disponibles.</p><a class="btn-primary" target="_blank" rel="noopener" href="' + SITIO.wa('Hola ' + SITIO.nombreCompleto + '! Me interesan propiedades en ' + paisActual + '.') + '">Consultar por WhatsApp</a></div>';
+      return;
+    }
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text-muted)">No se encontraron propiedades con esos criterios.</div>';
     return;
   }
@@ -1006,6 +1024,21 @@ function renderProps(props) {
   }).join('');
 }
 
+let paisActual = '';
+(function () {
+  const lista = (window.SITIO && SITIO.paises) || [];
+  const cont = document.getElementById('paises');
+  if (!lista.length || !cont) return;
+  cont.hidden = false;
+  cont.innerHTML = ['Todos'].concat(lista).map((p, i) =>
+    '<button type="button" data-pais="' + (i ? p : '') + '"' + (i ? '' : ' class="on"') + '>' + p + '</button>').join('');
+  cont.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    cont.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    paisActual = b.dataset.pais;
+    buscarPropiedades();
+  }));
+})();
+
 async function buscarPropiedades() {
   const tipo = document.getElementById('s-tipo').value;
   const operacion = document.getElementById('s-operacion').value;
@@ -1015,6 +1048,7 @@ async function buscarPropiedades() {
   document.getElementById('propiedades').scrollIntoView({ behavior: 'smooth' });
 
   let query = sb.from('propiedades').select('*').in('estado', ['activa', 'reservada']).order('created_at', { ascending: false });
+  if (paisActual) query = query.eq('pais', paisActual);
   if (tipo) query = query.eq('tipo', tipo);
   if (operacion) query = query.eq('operacion', operacion);
 

@@ -13,8 +13,9 @@ window.SITIO = {
   logo: '/files/magna-logo-horizontal.png', // logo del menú ('' = círculo con la inicial)
   favicon: '/files/favicon.png',
   ciudad: 'Córdoba',
+  heroEtiqueta: 'Inmobiliaria en Argentina, Paraguay y Uruguay',   // texto chico arriba del título principal
   pieMarca: 'Magna Strategic Group',            // título del pie de página
-  pieFrase: 'De Córdoba al mundo.',             // frase en dorado debajo del título del pie ('' = sin frase)
+  pieFrase: '',                               // frase en dorado debajo del título del pie ('' = sin frase)
   eslogan: 'Servicios inmobiliarios en Argentina, Uruguay y Paraguay.',
 
   // ---- Corredor/a responsable ----
@@ -59,6 +60,20 @@ window.SITIO = {
   whatsappIzquierda: true,     // botón flotante de WhatsApp abajo a la izquierda
   musicaIzquierda: true,       // botón de la música arriba a la izquierda
   compactoCelular: true,       // en el celular: servicios más compactos y menú más bajo
+  serviciosCompactos: true,    // en la compu: sección de servicios más compacta
+
+  // ---- Países (pestañas arriba del buscador; [] = sin pestañas) ----
+  paises: ['Argentina', 'Paraguay', 'Uruguay', 'EE.UU.'],
+
+  // ---- Idiomas ----
+  idiomas: true,               // botón ES | EN (false = solo español)
+  idiomaInicial: 'auto',       // 'auto' (según el navegador del visitante), 'es' o 'en'
+  en: {                        // textos propios de la inmobiliaria en inglés
+    heroEtiqueta: 'Real estate in Argentina, Paraguay & Uruguay',
+    eslogan: 'Real estate services in Argentina, Uruguay and Paraguay.',
+    horarios: ['Monday to Friday: 9 am – 6 pm', 'Saturday: 9 am – 1 pm'],
+    corredorTitulo: 'Licensed Real Estate Broker',
+  },
 
   // ---- Base de datos (Supabase de Magna) ----
   supabase: {
@@ -74,6 +89,7 @@ window.SITIO = {
   const S = window.SITIO;
   S.web = 'https://' + S.dominio;
   if (!S.pieMarca) S.pieMarca = S.nombreCompleto;
+  if (!S.heroEtiqueta) S.heroEtiqueta = 'Inmobiliaria en ' + S.ciudad;
   S.wa = function (texto) {
     return 'https://wa.me/' + S.whatsapp + (texto ? '?text=' + encodeURIComponent(texto) : '');
   };
@@ -193,6 +209,12 @@ window.SITIO = {
   if (S.menuAlto) dis += 'nav{height:' + S.menuAlto + 'px!important}.page{padding-top:' + S.menuAlto + 'px!important}'
     + '.nav-logo .logo-img{height:' + (S.logoAlto || Math.round(S.menuAlto * 0.64)) + 'px}'
     + 'html .zm-wrap{top:' + (S.menuAlto + 16) + 'px!important}';
+  if (S.serviciosCompactos) dis += '@media (min-width:769px){'
+    + 'html .services-section{padding:72px 5%!important}html .services-grid{margin-top:36px!important}'
+    + 'html .service-item{padding:28px 36px!important;display:grid!important;grid-template-columns:44px 1fr;column-gap:16px;align-items:center}'
+    + 'html .service-icon{width:44px!important;height:44px!important;margin-bottom:0!important}'
+    + 'html .service-title{font-size:20px!important;margin-bottom:0!important}'
+    + 'html .service-desc{grid-column:1/-1;margin-top:12px;line-height:1.65!important}}';
   if (S.compactoCelular) dis += '@media (max-width:768px){'
     + 'html nav{height:84px!important}html .zm-wrap{top:96px!important}'
     + 'html .services-section{padding:56px 5%!important}html .services-grid{margin-top:28px!important}'
@@ -209,6 +231,7 @@ window.SITIO = {
     + 'html .hero p{margin-left:auto}'
     + 'html .hero-actions{flex-direction:row-reverse;justify-content:flex-start}'
     + 'html .hero-pattern{transform:scaleX(-1)}'
+    + 'html .hero-eyebrow{white-space:nowrap}'
     + 'html .hero-glow{right:auto;left:10%}'
     + 'html .hero-scroll{right:auto!important;left:50%!important;transform:translateX(-50%)!important}}';
   if (S.fuenteTitulos) dis += 'html .hero h1{font-size:clamp(34px,4vw,58px)!important;line-height:1.15!important;letter-spacing:-0.01em}'

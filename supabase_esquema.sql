@@ -12,6 +12,7 @@ create table if not exists public.propiedades (
   tipo                text,
   subtipo             text,
   calle               text,
+  pais                text default 'Argentina',
   provincia           text,
   ciudad              text,
   barrio              text,

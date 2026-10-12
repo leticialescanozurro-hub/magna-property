@@ -376,6 +376,7 @@
 
       <!-- 2. UBICACIÓN -->
       <div class="form-section-title">Ubicación</div>
+      <div class="form-group"><label>País</label><select id="f-pais"><option>Argentina</option><option>Paraguay</option><option>Uruguay</option><option>EE.UU.</option></select></div>
       <div class="form-group"><label>Calle y número</label><input type="text" id="f-calle" placeholder="Ej: Carmen de Olmos 1680" oninput="armarDireccion()"></div>
       <div class="form-row">
         <div class="form-group"><label>Provincia</label><input type="text" id="f-provincia" value="Córdoba" oninput="armarDireccion()"></div>
@@ -772,6 +773,7 @@ function openModal() {
     if (el) el.value = el.tagName === 'SELECT' ? el.options[0].value : '';
   });
   document.getElementById('f-provincia').value = 'Córdoba';
+  document.getElementById('f-pais').value = 'Argentina';
   document.getElementById('f-ubicacion-exacta').checked = true;
   document.getElementById('f-apto-credito').checked = false;
   document.getElementById('f-sin-expensas').checked = false;
@@ -790,7 +792,7 @@ function editarPropiedad(p) {
   document.getElementById('modalTitle').textContent = 'Editar propiedad';
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = (val === null || val === undefined) ? '' : val; };
   set('f-operacion', p.operacion || 'venta'); set('f-tipo', p.tipo); set('f-subtipo', p.subtipo);
-  set('f-calle', p.calle); set('f-provincia', p.provincia || 'Córdoba'); set('f-ciudad', p.ciudad);
+  set('f-pais', p.pais || 'Argentina'); set('f-calle', p.calle); set('f-provincia', p.provincia || 'Córdoba'); set('f-ciudad', p.ciudad);
   set('f-barrio', p.barrio); set('f-cp', p.codigo_postal); set('f-direccion', p.direccion);
   set('f-sup-total', p.sup_total); set('f-sup-cubierta', p.sup_cubierta);
   set('f-antiguedad-tipo', p.antiguedad_tipo || ''); set('f-antiguedad-anios', p.antiguedad_anios);
@@ -831,6 +833,7 @@ async function guardarPropiedad() {
     tipo: val('f-tipo'),
     subtipo: txt('f-subtipo'),
     calle: txt('f-calle'),
+    pais: val('f-pais') || 'Argentina',
     provincia: txt('f-provincia'),
     ciudad: txt('f-ciudad'),
     barrio: txt('f-barrio'),
