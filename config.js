@@ -55,6 +55,7 @@ window.SITIO = {
   fuenteTitulos: 'Montserrat', // letra de los títulos ('' = la clásica de la plantilla)
   heroDerecha: true,           // texto principal a la derecha (versión espejada)
   whatsappIzquierda: true,     // botón flotante de WhatsApp abajo a la izquierda
+  musicaIzquierda: true,       // botón de la música arriba a la izquierda
 
   // ---- Base de datos (Supabase de Magna) ----
   supabase: {
@@ -182,6 +183,7 @@ window.SITIO = {
   if (S.menuAlto) dis += 'nav{height:' + S.menuAlto + 'px!important}.page{padding-top:' + S.menuAlto + 'px!important}'
     + '.nav-logo .logo-img{height:' + (S.logoAlto || Math.round(S.menuAlto * 0.64)) + 'px}'
     + 'html .zm-wrap{top:' + (S.menuAlto + 16) + 'px!important}';
+  if (S.musicaIzquierda) dis += 'html .zm-wrap{right:auto!important;left:20px!important;flex-direction:row!important}';
   if (S.whatsappIzquierda) dis += '@media (min-width:769px){html .whatsapp-float{right:auto!important;left:28px!important}}';
   if (S.heroDerecha) dis += '@media (min-width:769px){'
     + 'html .hero{justify-content:flex-end}'

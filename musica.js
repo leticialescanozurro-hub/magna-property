@@ -26,18 +26,18 @@
 
   const CSS = `
   .zm-wrap { position: fixed; top: 88px; right: 20px; z-index: 45; display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; font-family: 'Jost', sans-serif; }
-  .zm-btn { width: 48px; height: 48px; border-radius: 50%; background: #1A2E4A; border: 1.5px solid #C9A84C; color: #C9A84C; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; box-shadow: 0 4px 16px rgba(17,31,51,0.35); transition: transform 0.2s, background 0.2s; }
-  .zm-btn:hover { transform: scale(1.06); background: #243d5c; }
-  .zm-btn:focus-visible { outline: 2px solid #C9A84C; outline-offset: 3px; }
+  .zm-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--navy); border: 1.5px solid var(--gold); color: var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; box-shadow: 0 4px 16px rgba(var(--navy-rgb),0.35); transition: transform 0.2s, background 0.2s; }
+  .zm-btn:hover { transform: scale(1.06); background: var(--navy-mid); }
+  .zm-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
   .zm-nota { font-size: 22px; line-height: 1; }
   .zm-barras { display: none; align-items: flex-end; gap: 3px; height: 18px; }
-  .zm-barras i { display: block; width: 3px; height: 8px; background: #C9A84C; border-radius: 1px; animation: zmBar 1.1s ease-in-out infinite; }
+  .zm-barras i { display: block; width: 3px; height: 8px; background: var(--gold); border-radius: 1px; animation: zmBar 1.1s ease-in-out infinite; }
   .zm-barras i:nth-child(2) { animation-delay: 0.2s; }
   .zm-barras i:nth-child(3) { animation-delay: 0.4s; }
   .zm-on .zm-nota { display: none; }
   .zm-on .zm-barras { display: flex; }
   @keyframes zmBar { 0%, 100% { height: 5px; } 50% { height: 18px; } }
-  .zm-label { background: rgba(17,31,51,0.92); color: #fff; font-size: 12px; font-weight: 300; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 100px; border: 1px solid rgba(201,168,76,0.3); white-space: nowrap; max-width: 60vw; overflow: hidden; text-overflow: ellipsis; opacity: 0; transform: translateX(6px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
+  .zm-label { background: rgba(var(--navy-rgb),0.92); color: #fff; font-size: 12px; font-weight: 300; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 100px; border: 1px solid rgba(var(--gold-rgb),0.3); white-space: nowrap; max-width: 60vw; overflow: hidden; text-overflow: ellipsis; opacity: 0; transform: translateX(6px); transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
   .zm-label.zm-show, .zm-wrap:hover .zm-label { opacity: 1; transform: none; }
   @media print { .zm-wrap { display: none !important; } }
   @media (prefers-reduced-motion: reduce) { .zm-barras i { animation: none; height: 12px; } }
