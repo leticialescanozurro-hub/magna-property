@@ -13,7 +13,7 @@ window.SITIO = {
   logo: '/files/magna-logo-horizontal.png', // logo del menú ('' = círculo con la inicial)
   favicon: '/files/favicon.png',
   ciudad: 'Córdoba',
-  eslogan: 'Servicios inmobiliarios en Córdoba. Compra, venta, alquileres y tasaciones.',
+  eslogan: 'Servicios inmobiliarios en Argentina y Uruguay.',
 
   // ---- Corredor/a responsable ----
   corredor: 'Martha Alicia Caminos',
@@ -56,6 +56,7 @@ window.SITIO = {
   heroDerecha: true,           // texto principal a la derecha (versión espejada)
   whatsappIzquierda: true,     // botón flotante de WhatsApp abajo a la izquierda
   musicaIzquierda: true,       // botón de la música arriba a la izquierda
+  compactoCelular: true,       // en el celular: servicios más compactos y menú más bajo
 
   // ---- Base de datos (Supabase de Magna) ----
   supabase: {
@@ -183,6 +184,13 @@ window.SITIO = {
   if (S.menuAlto) dis += 'nav{height:' + S.menuAlto + 'px!important}.page{padding-top:' + S.menuAlto + 'px!important}'
     + '.nav-logo .logo-img{height:' + (S.logoAlto || Math.round(S.menuAlto * 0.64)) + 'px}'
     + 'html .zm-wrap{top:' + (S.menuAlto + 16) + 'px!important}';
+  if (S.compactoCelular) dis += '@media (max-width:768px){'
+    + 'html nav{height:84px!important}html .zm-wrap{top:96px!important}'
+    + 'html .services-section{padding:56px 5%!important}html .services-grid{margin-top:28px!important}'
+    + 'html .service-item{padding:22px 20px!important;display:grid!important;grid-template-columns:40px 1fr;column-gap:14px;align-items:center}'
+    + 'html .service-icon{width:40px!important;height:40px!important;margin-bottom:0!important}'
+    + 'html .service-title{font-size:19px!important;margin-bottom:0!important}'
+    + 'html .service-desc{grid-column:1/-1;margin-top:10px;font-size:13.5px!important;line-height:1.6!important}}';
   if (S.musicaIzquierda) dis += 'html .zm-wrap{right:auto!important;left:20px!important;flex-direction:row!important}';
   if (S.whatsappIzquierda) dis += '@media (min-width:769px){html .whatsapp-float{right:auto!important;left:28px!important}}';
   if (S.heroDerecha) dis += '@media (min-width:769px){'
