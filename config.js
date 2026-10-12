@@ -53,8 +53,8 @@ window.SITIO = {
 
   // ---- Base de datos (Supabase de Magna) ----  >>> COMPLETAR al crear el proyecto
   supabase: {
-    url: 'https://COMPLETAR.supabase.co',
-    key: 'sb_publishable_COMPLETAR',
+      url: 'https://fwkppkeazpmciiigndhq.supabase.co',
+   key: 'sb_publishable_GIKMYy03OAOaDO_Hs1GS_g_L9GQfJcV',
   },
 };
 
