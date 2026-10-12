@@ -6,9 +6,9 @@
    ===================================================================== */
 window.SITIO = {
   // ---- Marca ----
-  nombre: 'Magna Property',                // nombre corto
-  nombreSub: 'Servicios Inmobiliarios',    // segunda línea
-  nombreCompleto: 'Magna Property',
+  nombre: 'Magna',                         // nombre corto
+  nombreSub: 'Strategic Group',    // segunda línea
+  nombreCompleto: 'Magna Strategic Group',
   inicial: 'M',
   logo: '/files/magna-logo-horizontal.png', // logo del menú ('' = círculo con la inicial)
   favicon: '/files/favicon.png',
@@ -21,10 +21,10 @@ window.SITIO = {
   matricula: 'Mat. CPI-7625',
 
   // ---- Contacto ----
-  whatsapp: '5493516857192',             // sin +, sin espacios (549 + área + número)
-  telefonoVisible: '+54 9 351 685-7192',
+  whatsapp: '5493512174427',             // sin +, sin espacios (549 + área + número)
+  telefonoVisible: '+54 9 351 217-4427',
   email: '',                               // >>> COMPLETAR ('' oculta el mail en la página)
-  direccion: 'José Betinoti 3192, Nuevo Poeta Lugones',
+  direccion: 'Obispo Lazcano 3196, Villa Cabrera',
   direccion2: 'Córdoba, Argentina',
   horarios: ['Lunes a viernes: 9 a 18 hs', 'Sábados: 9 a 13 hs'],
   instagram: 'inmobiliaria.magna',         // usuario sin @ ('' para ocultar)
