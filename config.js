@@ -42,13 +42,15 @@ window.SITIO = {
     acento: '#D3A744',           // dorado plano
     acentoClaro: '#E4C677',
     acentoPalido: '#F6EDD6',
+    fondoClaro: '#F5F1E8',       // marfil cálido: reemplaza los fondos blancos
+    fondoSeccion: '#EEE7D8',     // marfil un tono más profundo: fondos de sección
   },
 
   musica: true,                // misma música de fondo que Zurban
 
   // ---- Diseño ----
-  menuAlto: 124,               // alto del menú superior en px (Zurban: 72)
-  logoAlto: 74,                // alto del logo dentro del menú, en px
+  menuAlto: 132,               // alto del menú superior en px (Zurban: 72)
+  logoAlto: 94,                // alto del logo dentro del menú, en px
   fuenteTitulos: 'Montserrat', // letra de los títulos ('' = la clásica de la plantilla)
   heroDerecha: true,           // texto principal a la derecha (versión espejada)
   whatsappIzquierda: true,     // botón flotante de WhatsApp abajo a la izquierda
@@ -103,6 +105,33 @@ window.SITIO = {
     document.querySelectorAll('[data-cfg-href="mail"]').forEach(function (el) { el.href = 'mailto:' + S.email; });
   }
   S.aplicar = aplicar;
+
+  // Fondos claros: reemplaza el blanco y el crema de la plantilla por los de la marca
+  if (c.fondoClaro || c.fondoSeccion) {
+    var esBlanco = /^(#fff|#ffffff|white|var\(--white\))$/i;
+    var esCrema = /^(var\(--cream\)|#faf8f3)$/i;
+    var fondo = function (st) {
+      if (!st) return;
+      ['background', 'background-color'].forEach(function (p) {
+        var v = (st.getPropertyValue(p) || '').trim();
+        if (!v) return;
+        if (c.fondoClaro && esBlanco.test(v)) st.setProperty(p, c.fondoClaro);
+        else if (c.fondoSeccion && esCrema.test(v)) st.setProperty(p, c.fondoSeccion);
+      });
+    };
+    var recorrerF = function (rules) {
+      for (var i = 0; i < rules.length; i++) {
+        var r = rules[i];
+        if (r.media && /print/.test(r.media.mediaText)) continue;
+        if (r.cssRules && !r.selectorText) recorrerF(r.cssRules); else if (r.style) fondo(r.style);
+      }
+    };
+    var aplicarFondos = function () {
+      for (var i = 0; i < document.styleSheets.length; i++) { try { recorrerF(document.styleSheets[i].cssRules); } catch (e) {} }
+      document.querySelectorAll('[style*="background"]').forEach(function (el) { fondo(el.style); });
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', aplicarFondos); else aplicarFondos();
+  }
 
   // Letra de los títulos: reemplaza la clásica (Cormorant) por la elegida
   if (S.fuenteTitulos) {
