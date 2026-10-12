@@ -47,14 +47,16 @@ window.SITIO = {
   musica: true,                // misma música de fondo que Zurban
 
   // ---- Diseño ----
-  menuAlto: 100,               // alto del menú superior en px (Zurban: 72)
+  menuAlto: 124,               // alto del menú superior en px (Zurban: 72)
+  logoAlto: 74,                // alto del logo dentro del menú, en px
+  fuenteTitulos: 'Montserrat', // letra de los títulos ('' = la clásica de la plantilla)
   heroDerecha: true,           // texto principal a la derecha (versión espejada)
   whatsappIzquierda: true,     // botón flotante de WhatsApp abajo a la izquierda
 
-  // ---- Base de datos (Supabase de Magna) ----  >>> COMPLETAR al crear el proyecto
+  // ---- Base de datos (Supabase de Magna) ----
   supabase: {
-      url: 'https://fwkppkeazpmciiigndhq.supabase.co',
-   key: 'sb_publishable_GIKMYy03OAOaDO_Hs1GS_g_L9GQfJcV',
+    url: 'https://fwkppkeazpmciiigndhq.supabase.co',
+    key: 'sb_publishable_GIKMYy03OAOaDO_Hs1GS_g_L9GQfJcV',
   },
 };
 
@@ -102,10 +104,53 @@ window.SITIO = {
   }
   S.aplicar = aplicar;
 
+  // Letra de los títulos: reemplaza la clásica (Cormorant) por la elegida
+  if (S.fuenteTitulos) {
+    var fam = S.fuenteTitulos;
+    var lk = document.createElement('link'); lk.rel = 'stylesheet';
+    lk.href = 'https://fonts.googleapis.com/css2?family=' + fam.replace(/ /g, '+')
+      + ':ital,wght@0,300;0,400;0,500;1,300&display=swap';
+    document.head.appendChild(lk);
+    var nueva = "'" + fam + "', sans-serif";
+    var grande = /hero h1|section-title|cta-band h2|stat-number/;
+    var cambiar = function (st, sel) {
+      if (!st || !st.fontFamily || st.fontFamily.indexOf('Cormorant') < 0) return;
+      st.fontFamily = nueva;
+      var w = parseInt(st.fontWeight || '400', 10);
+      st.fontWeight = (sel && grande.test(sel)) ? '300' : (w >= 500 ? '500' : '400');
+    };
+    var recorrer = function (rules) {
+      for (var i = 0; i < rules.length; i++) {
+        var r = rules[i];
+        if (r.cssRules && !r.selectorText) recorrer(r.cssRules);
+        else if (r.style) cambiar(r.style, r.selectorText);
+      }
+    };
+    var aplicarFuente = function () {
+      for (var i = 0; i < document.styleSheets.length; i++) {
+        try { recorrer(document.styleSheets[i].cssRules); } catch (e) {}
+      }
+      document.querySelectorAll('[style*="Cormorant"]').forEach(function (el) { cambiar(el.style); });
+    };
+    var obs = function () {
+      aplicarFuente();
+      new MutationObserver(function (ms) {
+        ms.forEach(function (m) {
+          m.addedNodes.forEach(function (n) {
+            if (n.nodeType !== 1) return;
+            if (n.matches && n.matches('[style*="Cormorant"]')) cambiar(n.style);
+            if (n.querySelectorAll) n.querySelectorAll('[style*="Cormorant"]').forEach(function (el) { cambiar(el.style); });
+          });
+        });
+      }).observe(document.body, { childList: true, subtree: true });
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', obs); else obs();
+  }
+
   // Diseño: alto del menú y encabezado espejado
   var dis = '';
   if (S.menuAlto) dis += 'nav{height:' + S.menuAlto + 'px!important}.page{padding-top:' + S.menuAlto + 'px!important}'
-    + '.nav-logo .logo-img{height:' + Math.round(S.menuAlto * 0.64) + 'px}'
+    + '.nav-logo .logo-img{height:' + (S.logoAlto || Math.round(S.menuAlto * 0.64)) + 'px}'
     + 'html .zm-wrap{top:' + (S.menuAlto + 16) + 'px!important}';
   if (S.whatsappIzquierda) dis += '@media (min-width:769px){html .whatsapp-float{right:auto!important;left:28px!important}}';
   if (S.heroDerecha) dis += '@media (min-width:769px){'
@@ -117,6 +162,8 @@ window.SITIO = {
     + 'html .hero-pattern{transform:scaleX(-1)}'
     + 'html .hero-glow{right:auto;left:10%}'
     + 'html .hero-scroll{right:auto!important;left:50%!important;transform:translateX(-50%)!important}}';
+  if (S.fuenteTitulos) dis += 'html .hero h1{font-size:clamp(34px,4vw,58px)!important;line-height:1.15!important;letter-spacing:-0.01em}'
+    + '@media (min-width:769px){html .hero-content{max-width:920px!important}}';
   if (dis) { var st = document.createElement('style'); st.textContent = dis; document.head.appendChild(st); }
 
   // Logo en imagen (reemplaza círculo + nombre donde haya data-logo)
