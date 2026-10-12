@@ -44,6 +44,7 @@ window.SITIO = {
     acentoPalido: '#F6EDD6',
     fondoClaro: '#F5F1E8',       // marfil cálido: reemplaza los fondos blancos
     fondoSeccion: '#EEE7D8',     // marfil un tono más profundo: fondos de sección
+    doradoMetalico: 'linear-gradient(120deg, #B1823B 0%, #D5A75E 38%, #F3D08A 52%, #D5A75E 66%, #B1823B 100%)',
   },
 
   musica: true,                // misma música de fondo que Zurban
@@ -193,6 +194,8 @@ window.SITIO = {
     + 'html .hero-scroll{right:auto!important;left:50%!important;transform:translateX(-50%)!important}}';
   if (S.fuenteTitulos) dis += 'html .hero h1{font-size:clamp(34px,4vw,58px)!important;line-height:1.15!important;letter-spacing:-0.01em}'
     + '@media (min-width:769px){html .hero-content{max-width:920px!important}}';
+  if (c.doradoMetalico) dis += 'html .cta-band, html .btn-primary{background:' + c.doradoMetalico + '!important}'
+    + 'html .btn-primary:hover{filter:brightness(1.06)}';
   if (dis) { var st = document.createElement('style'); st.textContent = dis; document.head.appendChild(st); }
 
   // Logo en imagen (reemplaza círculo + nombre donde haya data-logo)
