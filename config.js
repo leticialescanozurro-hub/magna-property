@@ -13,7 +13,7 @@ window.SITIO = {
   logo: '/files/magna-logo-horizontal.png', // logo del menú ('' = círculo con la inicial)
   favicon: '/files/favicon.png',
   ciudad: 'Córdoba',
-  heroEtiqueta: 'Inmobiliaria Argentina, Paraguay, Uruguay y EE.UU.',   // texto chico arriba del título principal
+  heroEtiqueta: 'Bienes Raíces Argentina, Paraguay, Uruguay y EE.UU.',   // texto chico arriba del título principal
   pieMarca: 'Magna Strategic Group',            // título del pie de página
   pieFrase: '',                               // frase en dorado debajo del título del pie ('' = sin frase)
   eslogan: 'Servicios inmobiliarios en Argentina, Uruguay, Paraguay y EE.UU.',
